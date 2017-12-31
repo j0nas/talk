@@ -1,11 +1,12 @@
-const { CHAT_MESSAGE } = require('../shared/socketEvents');
+const { CLIENT_JOIN, CLIENT_CHAT_MESSAGE, SERVER_JOIN, SERVER_CHAT_MESSAGE } = require('../shared/socketEvents');
 
 const io = require('socket.io')();
 
 module.exports = () => {
   io.on('connection', socket => {
-    console.log(`${socket.id} connected.`);
-    socket.on(CHAT_MESSAGE, message => io.emit(CHAT_MESSAGE, message));
+    socket.on(CLIENT_CHAT_MESSAGE, message => io.emit(SERVER_CHAT_MESSAGE, message));
+    socket.on(CLIENT_JOIN, client => io.emit(SERVER_JOIN, client));
   });
+
   io.listen(8000);
 };
