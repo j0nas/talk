@@ -5,6 +5,7 @@ import OnlineUsersList from '../components/OnlineUsersList';
 import EnterName from '../components/EnterName';
 import MessagesList from '../components/MessagesList';
 import MessageInput from '../components/MessageInput';
+import Page from '../layout/Page';
 
 const Index = ({
   users,
@@ -17,41 +18,38 @@ const Index = ({
   sendMessage,
   confirmName,
 }) => (
-  <div className="container">
-    <div className="chat">
-      <div>
-        <MessagesList messages={messages} />
-        {nameConfirmed && (
-          <MessageInput message={message} onMessageChange={changeMessage} onSendMessageClick={sendMessage} />
-        )}
+  <Page>
+    <div className="container">
+      <div className="chat">
+        <div>
+          <MessagesList messages={messages} />
+          {nameConfirmed && (
+            <MessageInput message={message} onMessageChange={changeMessage} onSendMessageClick={sendMessage} />
+          )}
+        </div>
+        {!nameConfirmed && <EnterName name={name} changeName={changeName} onConfirmNameClick={confirmName} />}
       </div>
-      {!nameConfirmed && <EnterName name={name} changeName={changeName} onConfirmNameClick={confirmName} />}
+      <div className="onlineUsers">
+        <OnlineUsersList users={users} />
+      </div>
+
+      <style jsx>{`
+        .container {
+          display: flex;
+          flex-direction: row;
+        }
+
+        .chat,
+        .onlineUsers {
+          display: flex;
+        }
+
+        .chat {
+          flex: 1;
+        }
+      `}</style>
     </div>
-    <div className="onlineUsers">
-      <OnlineUsersList users={users} />
-    </div>
-
-    <style jsx>{`
-      .container {
-        border: 1px solid red;
-        display: flex;
-        flex-direction: row;
-      }
-
-      .chat,
-      .onlineUsers {
-        display: flex;
-      }
-
-      .chat {
-        flex: 1;
-      }
-
-      .onlineUsers {
-        border: 1px solid blue;
-      }
-    `}</style>
-  </div>
+  </Page>
 );
 
 export default withRedux(

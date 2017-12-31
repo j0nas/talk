@@ -1,6 +1,5 @@
-const { CLIENT_JOIN, CLIENT_CHAT_MESSAGE, SERVER_JOIN, SERVER_CHAT_MESSAGE } = require('../shared/socketEvents');
-
 const io = require('socket.io')();
+const { CLIENT_JOIN, CLIENT_CHAT_MESSAGE, SERVER_JOIN, SERVER_CHAT_MESSAGE } = require('../shared/socketEvents');
 
 module.exports = () => {
   io.on('connection', socket => {

@@ -37,13 +37,17 @@ export const changeMessage = message => ({ type: types.CHANGE_MESSAGE, message }
 export const changeName = name => ({ type: types.CHANGE_NAME, name });
 export const confirmName = () => (dispatch, getState) => {
   const { currentUser: { name } } = getState();
-  subscribe(name, ({ message }) => dispatch(newMessage(message)), ({ client }) => dispatch(join(client)));
+  const onReceiveMessage = message => dispatch(newMessage(message));
+  const onNewUserJoin = user => dispatch(join(user));
+
+  subscribe(name, onReceiveMessage, onNewUserJoin);
   dispatch({ type: types.CONFIRM_NAME });
 };
 
-export const sendMessage = message => {
-  emitMessage(message);
-  return { type: types.SEND_MESSAGE };
+export const sendMessage = () => (dispatch, getState) => {
+  const { message, name } = getState().currentUser;
+  emitMessage({ message, sender: name });
+  dispatch({ type: types.SEND_MESSAGE });
 };
 
 export default currentUserReducer;
